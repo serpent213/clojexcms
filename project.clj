@@ -1,6 +1,6 @@
 (defproject clojexcms "0.1.0-SNAPSHOT"
-  :description "FIXME: write description"
-  :url "http://example.com/FIXME"
+  :description "Clojure(Script) Example CMS"
+  :url "https://github.com/improper/clojexcms"
   :license {:name "Eclipse Public License"
             :url "http://www.eclipse.org/legal/epl-v10.html"}
 

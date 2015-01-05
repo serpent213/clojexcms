@@ -1,5 +1,11 @@
-# clojexcms
+# clojexcms – Clojure(Script) Example CMS
 
+Developed for the :clojureD conference 2014, "Web Applications by
+Example", Steffen Beyer.
+
+## Dependencies and building blocks
+
+* [Chestnut Leiningen Template](https://github.com/plexus/chestnut)
 
 ## Development
 
