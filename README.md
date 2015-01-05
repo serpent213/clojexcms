@@ -1,11 +1,16 @@
 # clojexcms – Clojure(Script) Example CMS
 
-Developed for the :clojureD conference 2014, "Web Applications by
+Developed for the [:clojureD conference](http://www.clojured.de) 2014, "Web Applications by
 Example", Steffen Beyer.
 
 ## Dependencies and building blocks
 
-* [Chestnut Leiningen Template](https://github.com/plexus/chestnut)
+* [Chestnut](https://github.com/plexus/chestnut) – Leiningen template for ClJs development
+  * Figwheel
+  * http-kit
+  * Om
+* PostgreSQL
+* [Flyway](http://flywaydb.org) – Database migrations
 
 ## Development
 
@@ -95,3 +100,9 @@ your option) any later version.
 ## Chestnut
 
 Created with [Chestnut](http://plexus.github.io/chestnut/) 0.7.0-SNAPSHOT (ecadc3ce).
+
+## Further references
+
+* CircleCI frontend
+* Anna's talk
+* Luminus

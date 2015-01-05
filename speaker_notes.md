@@ -10,6 +10,7 @@
 
 * Chestnut
 * PostgreSQL
+* Flyway
 
 # Live demo
 
