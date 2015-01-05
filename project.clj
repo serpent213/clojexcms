@@ -16,10 +16,12 @@
                  [enlive "1.1.5"]
                  [om "0.8.0-rc1"]
                  [environ "1.0.0"]
-                 [http-kit "2.1.19"]]
+                 [http-kit "2.1.19"]
+                 [postgresql "9.3-1102.jdbc4"]]
 
   :plugins [[lein-cljsbuild "1.0.3"]
             [lein-environ "1.0.0"]
+            [com.github.metaphor/lein-flyway "1.0"]
             [lein-less "1.7.2"]]
 
   :min-lein-version "2.5.0"
@@ -70,4 +72,15 @@
                                             {:source-paths ["env/prod/cljs"]
                                              :compiler
                                              {:optimizations :advanced
-                                              :pretty-print false}}}}}})
+                                              :pretty-print false}}}}}}
+
+  ;; Flyway Database Migration configuration
+  :flyway {
+           ;; Database connection
+           :driver "org.postgresql.Driver"
+           :url "jdbc:postgresql://localhost/clojexcms"
+           :user "dev"
+           :password "dev"
+
+           ;; Migration locations
+           :locations ["migrations"]})
