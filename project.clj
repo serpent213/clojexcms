@@ -15,6 +15,7 @@
                  [enlive "1.1.5"]
                  [environ "1.0.0"]
                  [http-kit "2.1.19"]
+                 [markdown-clj "0.9.61"]
                  [om "0.8.0-rc1"]
                  [postgresql "9.3-1102.jdbc41"]
                  [ring "1.3.2"]

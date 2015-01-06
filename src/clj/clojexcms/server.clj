@@ -1,5 +1,6 @@
 (ns clojexcms.server
   (:require [clojure.java.io :as io]
+            [clojexcms.content-page :refer [content-page]]
             [clojexcms.dev :refer [is-dev? inject-devmode-html browser-repl start-figwheel start-less]]
             [compojure.core :refer [GET defroutes]]
             [compojure.route :refer [resources]]
@@ -13,10 +14,6 @@
 (deftemplate backend-page
   (io/resource "backend.html") []
   [:body] (if is-dev? inject-devmode-html identity))
-
-(deftemplate content-page
-  (io/resource "frontend.html") [id]
-  [:div#content] (content "hey foo!"))
 
 (defroutes routes
   (resources "/")
