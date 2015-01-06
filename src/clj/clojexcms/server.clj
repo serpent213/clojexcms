@@ -19,7 +19,9 @@
   (resources "/")
   (resources "/react" {:root "react"})
   (GET "/admin/*" req (backend-page))
-  (GET "/" [] (content-page "welcome")))
+
+  (GET "/" [] (content-page "welcome"))
+  (GET "/about" [] (content-page "about")))
 
 (def http-handler
   (if is-dev?
