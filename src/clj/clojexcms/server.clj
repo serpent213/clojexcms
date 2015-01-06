@@ -3,20 +3,26 @@
             [clojexcms.dev :refer [is-dev? inject-devmode-html browser-repl start-figwheel start-less]]
             [compojure.core :refer [GET defroutes]]
             [compojure.route :refer [resources]]
-            [net.cgrand.enlive-html :refer [deftemplate]]
+            [net.cgrand.enlive-html :refer [deftemplate content]]
             [net.cgrand.reload :refer [auto-reload]]
             [ring.middleware.reload :as reload]
             [ring.middleware.defaults :refer [wrap-defaults api-defaults]]
             [environ.core :refer [env]]
             [org.httpkit.server :refer [run-server]]))
 
-(deftemplate page
-  (io/resource "index.html") [] [:body] (if is-dev? inject-devmode-html identity))
+(deftemplate backend-page
+  (io/resource "backend.html") []
+  [:body] (if is-dev? inject-devmode-html identity))
+
+(deftemplate content-page
+  (io/resource "frontend.html") [id]
+  [:div#content] (content "hey foo!"))
 
 (defroutes routes
   (resources "/")
   (resources "/react" {:root "react"})
-  (GET "/*" req (page)))
+  (GET "/admin/*" req (backend-page))
+  (GET "/" [] (content-page "welcome")))
 
 (def http-handler
   (if is-dev?
@@ -25,7 +31,7 @@
 
 (defn run-web-server [& [port]]
   (let [port (Integer. (or port (env :port) 10555))]
-    (print "Starting web server on port" port ".\n")
+    (print (str "Starting web server on port " port ".\n"))
     (run-server http-handler {:port port :join? false})))
 
 (defn run-auto-reload [& [port]]
@@ -40,3 +46,6 @@
 
 (defn -main [& [port]]
   (run port))
+
+(comment ; for instarepl
+  (run))
