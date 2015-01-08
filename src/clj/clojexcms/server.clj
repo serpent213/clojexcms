@@ -1,7 +1,7 @@
 (ns clojexcms.server
   (:require [clojure.java.io :as io]
             [clojexcms.content-page :refer [content-page]]
-            [clojexcms.dev :refer [is-dev? inject-devmode-html browser-repl start-figwheel start-less]]
+            [clojexcms.dev :refer [is-dev? inject-devmode-html start-figwheel start-less]]
             [compojure.core :refer [GET defroutes]]
             [compojure.route :refer [resources]]
             [net.cgrand.enlive-html :refer [deftemplate content]]
@@ -46,5 +46,5 @@
 (defn -main [& [port]]
   (run port))
 
-(comment ; for instarepl
+(comment ; for manual evaluation
   (run))

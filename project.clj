@@ -9,7 +9,7 @@
   :test-paths ["spec/clj"]
 
   :dependencies [[org.clojure/clojure "1.6.0"]
-                 [org.clojure/clojurescript "0.0-2644" :scope "provided"]
+                 [org.clojure/clojurescript "0.0-2665" :scope "provided"]
 
                  [compojure "1.3.1"]
                  [enlive "1.1.5"]
@@ -22,7 +22,7 @@
                  [ring/ring-defaults "0.1.2"]
                  [yesql "0.4.0"]]
 
-  :plugins [[lein-cljsbuild "1.0.3"]
+  :plugins [[lein-cljsbuild "1.0.4"]
             [lein-environ "1.0.0"]
             [com.github.metaphor/lein-flyway "1.0"]
             [lein-less "1.7.2"]]
@@ -45,15 +45,12 @@
 
   :profiles {:dev {:source-paths ["env/dev/clj"]
 
-                   :dependencies [[figwheel "0.2.1-SNAPSHOT"]
-                                  [com.cemerick/piggieback "0.1.3"]
-                                  [weasel "0.4.2"]
+                   :dependencies [[figwheel "0.1.7-SNAPSHOT"]
                                   [leiningen "2.5.0"]]
 
-                   :repl-options {:init-ns clojexcms.server
-                                  :nrepl-middleware [cemerick.piggieback/wrap-cljs-repl]}
+                   :repl-options {:init-ns clojexcms.server}
 
-                   :plugins [[lein-figwheel "0.2.1-SNAPSHOT"]]
+                   :plugins [[lein-figwheel "0.1.7-SNAPSHOT"]]
 
                    :figwheel {:http-server-root "public"
                               :server-port 3449
