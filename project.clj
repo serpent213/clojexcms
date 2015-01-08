@@ -15,7 +15,7 @@
                  [enlive "1.1.5"]
                  [environ "1.0.0"]
                  [http-kit "2.1.19"]
-                 [markdown-clj "0.9.61"]
+                 [markdown-clj "0.9.61" :exclusions [org.clojure/clojure]]
                  [om "0.8.0-rc1"]
                  [postgresql "9.3-1102.jdbc41"]
                  [ring "1.3.2"]
@@ -36,7 +36,6 @@
                                         :output-dir    "resources/public/js/out"
                                         :source-map    "resources/public/js/out.js.map"
                                         :preamble      ["react/react.min.js"]
-                                        :externs       ["react/externs/react.js"]
                                         :optimizations :none
                                         :pretty-print  true}}}}
 
@@ -46,7 +45,7 @@
 
   :profiles {:dev {:source-paths ["env/dev/clj"]
 
-                   :dependencies [[figwheel "0.1.6-SNAPSHOT"]
+                   :dependencies [[figwheel "0.2.1-SNAPSHOT"]
                                   [com.cemerick/piggieback "0.1.3"]
                                   [weasel "0.4.2"]
                                   [leiningen "2.5.0"]]
@@ -54,7 +53,7 @@
                    :repl-options {:init-ns clojexcms.server
                                   :nrepl-middleware [cemerick.piggieback/wrap-cljs-repl]}
 
-                   :plugins [[lein-figwheel "0.1.6-SNAPSHOT"]]
+                   :plugins [[lein-figwheel "0.2.1-SNAPSHOT"]]
 
                    :figwheel {:http-server-root "public"
                               :server-port 3449
