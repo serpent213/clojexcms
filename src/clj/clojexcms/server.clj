@@ -8,7 +8,7 @@
             [net.cgrand.enlive-html :refer [deftemplate content]]
             [net.cgrand.reload :refer [auto-reload]]
             [ring.middleware.reload :as reload]
-            [ring.middleware.defaults :refer [wrap-defaults api-defaults]]
+            [ring.middleware.defaults :refer [wrap-defaults site-defaults]]
             [environ.core :refer [env]]
             [org.httpkit.server :refer [run-server]]
             [taoensso.sente :as sente]))
@@ -51,8 +51,8 @@
 
 (def http-handler
   (if is-dev?
-    (reload/wrap-reload (wrap-defaults #'routes api-defaults))
-    (wrap-defaults routes api-defaults)))
+    (reload/wrap-reload (wrap-defaults #'routes site-defaults))
+    (wrap-defaults routes site-defaults)))
 
 (defn run-web-server [& [port]]
   (let [port (Integer. (or port (env :port) 10555))]
