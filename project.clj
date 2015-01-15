@@ -12,7 +12,9 @@
 
   :dependencies [[org.clojure/clojure "1.6.0"]
                  [org.clojure/clojurescript "0.0-2665" :scope "provided"]
+                 [org.clojure/core.async "0.1.346.0-17112a-alpha"]
 
+                 [com.taoensso/sente "1.3.0-RC2"]
                  [compojure "1.3.1"]
                  [enlive "1.1.5"]
                  [environ "1.0.0"]
