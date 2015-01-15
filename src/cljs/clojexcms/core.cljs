@@ -4,6 +4,8 @@
             [om.dom :as dom :include-macros true]
             [taoensso.sente :as sente :refer (cb-success?)]))
 
+(enable-console-print!)
+
 (defonce app-state (atom {:text "Hello Chestnut!"}))
 
 (let [{:keys [chsk ch-recv send-fn state]}
@@ -17,17 +19,17 @@
 
 (defmethod event-msg-handler :default ; Fallback
   [{:as ev-msg :keys [event]}]
-  (.log js/console "Unhandled event: %s" event))
+  (println "Unhandled event:" event))
 
 (defmethod event-msg-handler :chsk/state
   [{:as ev-msg :keys [?data]}]
   (if (= ?data {:first-open? true})
-    (.log js/console "Channel socket successfully established!")
-    (.log js/console "Channel socket state change: %s" ?data)))
+    (println "Channel socket successfully established!")
+    (println "Channel socket state change:" ?data)))
 
 (defmethod event-msg-handler :chsk/recv
   [{:as ev-msg :keys [?data]}]
-  (.log js/console "Push event from server: %s" ?data))
+  (println "Push event from server:" ?data))
 
 (defn main []
   (sente/start-chsk-router! ch-chsk event-msg-handler)
