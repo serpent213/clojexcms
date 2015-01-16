@@ -1,13 +1,14 @@
 (ns clojexcms.core
   ; (:require-macros [cljs.core.async.macros :refer (go go-loop)])
   (:require ; [cljs.core.async :as async :refer (<! >! put! chan)]
+            [clojexcms.tabpanel :refer (tabpanel)]
             [om.core :as om :include-macros true]
             [om.dom :as dom :include-macros true]
             [taoensso.sente :as sente :refer (cb-success?)]))
 
 (enable-console-print!)
 
-(defonce app-state (atom {:text "Hello Chestnut!"}))
+(defonce app-state (atom {:text "clojexcms"}))
 
 (let [{:keys [chsk ch-recv send-fn state]}
       (sente/make-channel-socket! "/chsk" {:type :auto})]
@@ -28,10 +29,10 @@
   (when (:first-open? ?data)
     (chsk-send! [:content/get-all] 5000
                 (fn [cb-reply]
-                  (println ":content/get-all reply:" cb-reply)
+                  #_(println ":content/get-all reply:" cb-reply)
                   (when (not= cb-reply :chsk/timeout)
                     (swap! app-state assoc :content cb-reply)
-                    (println "new app-state:" @app-state))))))
+                    #_(println "new app-state:" @app-state))))))
 
 #_(defmethod event-msg-handler :chsk/recv
   [{:as ev-msg :keys [?data]}]
@@ -46,7 +47,6 @@
        (render [_]
                (dom/div nil
                         (dom/h1 nil (:text app))
-                        (dom/textarea #js {:value (get-in app [:content :welcome :body])
-                                           :cols 100 :rows 20} nil)))))
+                        (om/build tabpanel (:content app))))))
    app-state
    {:target (. js/document (getElementById "app"))}))
