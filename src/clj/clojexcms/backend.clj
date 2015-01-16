@@ -1,9 +1,13 @@
 (ns clojexcms.backend
   (:require ; [clojure.core.async :as async :refer (<! <!! >! >!! put! chan go go-loop)]
             [clojure.java.io :as io]
+            [clojexcms.database :refer [db]]
             [clojexcms.dev :refer [is-dev? inject-devmode-html]]
             [net.cgrand.enlive-html :refer [deftemplate]]
-            [taoensso.sente :as sente]))
+            [taoensso.sente :as sente]
+            [yesql.core :refer [defqueries]]))
+
+(defqueries "backend/content.sql")
 
 (deftemplate backend-page
   (io/resource "backend.html") []
@@ -18,9 +22,6 @@
   (def chsk-send!                    send-fn) ; ChannelSocket's send API fn
   (def connected-uids                connected-uids)) ; Watchable, read-only atom
 
-(defn start-chsk-router! []
-  (sente/start-chsk-router! ch-chsk event-msg-handler))
-
 (defmulti event-msg-handler :id) ; Dispatch on event-id
 
 (defmethod event-msg-handler :default ; Fallback
@@ -31,10 +32,18 @@
     (when ?reply-fn
       (?reply-fn {:unmatched-event-as-echoed-from-from-server event}))))
 
-(defmethod event-msg-handler :content/get
+(defmethod event-msg-handler :chsk/ws-ping [ev-msg]
+  ;; do nothing
+  )
+
+(defmethod event-msg-handler :content/get-all
   [{:as ev-msg :keys [event id ?data ring-req ?reply-fn send-fn]}]
   (let [session (:session ring-req)
         uid     (:uid     session)]
-    (println ":content/get event:" event)
+    (println ":content/get-all event:" event)
     (when ?reply-fn
-      (?reply-fn {:unmatched-event-as-echoed-from-from-server event}))))
+      (?reply-fn (into {} (map (fn [ent] {(keyword (:id ent)) ent})
+                               (content-all db)))))))
+
+(defn start-chsk-router! []
+  (sente/start-chsk-router! ch-chsk event-msg-handler))

@@ -1,5 +1,6 @@
 (ns clojexcms.core
-  (:require [cljs.core.async :as async :refer (<! >! put! chan)]
+  ; (:require-macros [cljs.core.async.macros :refer (go go-loop)])
+  (:require ; [cljs.core.async :as async :refer (<! >! put! chan)]
             [om.core :as om :include-macros true]
             [om.dom :as dom :include-macros true]
             [taoensso.sente :as sente :refer (cb-success?)]))
@@ -23,11 +24,16 @@
 
 (defmethod event-msg-handler :chsk/state
   [{:as ev-msg :keys [?data]}]
-  (if (= ?data {:first-open? true})
-    (println "Channel socket successfully established!")
-    (println "Channel socket state change:" ?data)))
+  (println "Channel socket state change:" ?data)
+  (when (:first-open? ?data)
+    (chsk-send! [:content/get-all] 5000
+                (fn [cb-reply]
+                  (println ":content/get-all reply:" cb-reply)
+                  (when (not= cb-reply :chsk/timeout)
+                    (swap! app-state assoc :content cb-reply)
+                    (println "new app-state:" @app-state))))))
 
-(defmethod event-msg-handler :chsk/recv
+#_(defmethod event-msg-handler :chsk/recv
   [{:as ev-msg :keys [?data]}]
   (println "Push event from server:" ?data))
 
@@ -38,6 +44,9 @@
      (reify
        om/IRender
        (render [_]
-               (dom/h1 nil (:text app)))))
+               (dom/div nil
+                        (dom/h1 nil (:text app))
+                        (dom/textarea #js {:value (get-in app [:content :welcome :body])
+                                           :cols 100 :rows 20} nil)))))
    app-state
    {:target (. js/document (getElementById "app"))}))
