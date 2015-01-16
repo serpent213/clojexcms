@@ -1,7 +1,9 @@
 # clojexcms – Clojure(Script) Example CMS
 
-Developed for the [:clojureD conference](http://www.clojured.de) 2014, "Web Applications by
+Developed for the [:clojureD conference](http://www.clojured.de) 2015, "Web Applications by
 Example", Steffen Beyer.
+
+*frontend* is the visitor-facing website, *backend* is the administration panel.
 
 ## Dependencies and building blocks
 
@@ -101,8 +103,28 @@ your option) any later version.
 
 Created with [Chestnut](http://plexus.github.io/chestnut/) 0.7.0-SNAPSHOT (ecadc3ce).
 
+## Known issues/To do
+
+* LT browser repl port (use internal browser?)
+* LT plugins & behaviours & keybindings (publish?)
+* LT paredit
+* live CSS update/scrubber
+* ask about ~1000 errors in Google group
+* DRY DB config
+
+## Live coding, possibilities and issues
+
+* Chrome source view, sourcemap, debugger, breakpoints
+* LT instarepl, watches, docs
+
+* http://thinkrelevance.com/blog/2013/06/04/clojure-workflow-reloaded
+* http://blog.michielborkent.nl/blog/2014/09/25/figwheel-keep-Om-turning/
+* https://github.com/bhauman/lein-figwheel
+* http://astashov.github.io/blog/2014/07/30/perfect-clojurescript-development-environment-with-vim/
+
 ## Further references
 
 * CircleCI frontend
 * Anna's talk
 * Luminus
+* Bret Victor
