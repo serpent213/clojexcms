@@ -52,7 +52,7 @@
                                                                     :index i
                                                                     :tabid tabid
                                                                     :tabtitle tabtitle}}))
-                                               (vals tabs)))
+                                               tabs))
                            (apply dom/div #js {:className "tab-content"}
                                   (map-indexed (fn [i tab]
                                                  (om/build tabcontent tab
@@ -60,4 +60,4 @@
                                                                     :index i
                                                                     :tabid tabid
                                                                     :tabbody tabbody}}))
-                                               (vals tabs)))))))
+                                               tabs))))))

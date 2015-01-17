@@ -47,6 +47,6 @@
        (render [_]
                (dom/div nil
                         (dom/h1 nil (:text app))
-                        (om/build content-view (:content app))))))
+                        (om/build content-view (vals (:content app)))))))
    app-state
    {:target (. js/document (getElementById "app"))}))
