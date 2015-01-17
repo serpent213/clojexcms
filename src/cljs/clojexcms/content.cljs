@@ -11,5 +11,5 @@
   (om/component
    (om/build tabpanel content-all
              {:state {:tabid :id
-                      :tabtitle :description
+                      :tabtitle :title
                       :tabbody edit-view}})))

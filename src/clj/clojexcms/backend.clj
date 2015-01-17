@@ -42,8 +42,7 @@
         uid     (:uid     session)]
     (println ":content/get-all event:" event)
     (when ?reply-fn
-      (?reply-fn (into {} (map (fn [ent] {(keyword (:id ent)) ent})
-                               (content-all db)))))))
+      (?reply-fn (content-all db)))))
 
 (defn start-chsk-router! []
   (sente/start-chsk-router! ch-chsk event-msg-handler))
