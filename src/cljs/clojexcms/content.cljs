@@ -1,5 +1,6 @@
 (ns clojexcms.content
   (:require [clojexcms.tabpanel :refer (tabpanel)]
+            [om-bootstrap.button :as b]
             [om.core :as om :include-macros true]
             [om.dom :as dom :include-macros true]))
 

@@ -22,6 +22,7 @@
                  [markdown-clj "0.9.61" :exclusions [org.clojure/clojure]]
                  [om "0.8.0-rc1"]
                  [postgresql "9.3-1102.jdbc41"]
+                 [racehub/om-bootstrap "0.3.3" :exclusions [om]]
                  [ring "1.3.2"]
                  [ring/ring-defaults "0.1.2"]
                  [yesql "0.4.0"]]
@@ -50,7 +51,7 @@
   :profiles {:dev {:source-paths ["env/dev/clj"]
 
                    :dependencies [[figwheel "0.1.7-SNAPSHOT"]
-                                  [leiningen "2.5.0"]]
+                                  [leiningen "2.5.1"]]
 
                    :repl-options {:init-ns clojexcms.server}
 
