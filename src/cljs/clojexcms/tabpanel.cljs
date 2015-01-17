@@ -7,49 +7,57 @@
 (defn tablist [tab owner]
   (reify
     om/IRenderState
-    (render-state [_ {:keys [switch active index]}]
+    (render-state [_ {:keys [switch active index tabid tabtitle]}]
                   (dom/li #js {:role "presentation" :className (if active "active")
                                :onClick (fn [e]
                                           (put! switch index)
                                           (.preventDefault e))}
-                          (dom/a #js {:href (str "#" (:id tab)) :aria-controls (:id tab)
-                                      :role "tab" :data-toggle "tab"}
-                                 (:description tab))))))
+                          (let [id (if tabid (tabid tab) (str index))]
+                            (dom/a #js {:href (str "#" id) :aria-controls id
+                                        :role "tab" :data-toggle "tab"}
+                                   (tabtitle tab)))))))
 
 (defn tabcontent [tab owner]
   (reify
     om/IRenderState
-    (render-state [_ {:keys [active]}]
-                  (dom/div #js {:role "tabpanel" :className (str "tab-pane" (if active " active"))
-                                :id (:id tab)}
-                           (dom/textarea #js {:value (:body tab) :cols 100 :rows 20})))))
+    (render-state [_ {:keys [active index tabid tabbody]}]
+                  (let [id (if tabid (tabid tab) (str index))]
+                    (dom/div #js {:role "tabpanel" :className (str "tab-pane" (if active " active"))
+                                  :id id}
+                             (om/build tabbody tab))))))
 
 (defn tabpanel [tabs owner]
   (reify
     om/IInitState
     (init-state [_]
                 {:switch (chan)
-                 :active-tab 0})
+                 :active-tab 0
+                 :tabtitle (fn [_] ":tabtitle")
+                 :tabbody (fn [_ _] (om/component (dom/span nil ":tabbody")))})
     om/IWillMount
     (will-mount [_]
                 (let [switch (om/get-state owner :switch)]
                   (go-loop []
                            (let [index (<! switch)]
-                             (println "switch to" index)
                              (om/set-state! owner :active-tab index))
                            (recur))))
     om/IRenderState
-    (render-state [_ {:keys [switch active-tab]}]
+    (render-state [_ {:keys [switch active-tab tabid tabtitle tabbody]}]
                   (dom/div #js {:role "tabpanel"}
                            (apply dom/ul #js {:className "nav nav-tabs" :role "tablist"}
                                   (map-indexed (fn [i tab]
                                                  (om/build tablist tab
                                                            {:state {:switch switch
                                                                     :active (= i active-tab)
-                                                                    :index i}}))
+                                                                    :index i
+                                                                    :tabid tabid
+                                                                    :tabtitle tabtitle}}))
                                                (vals tabs)))
                            (apply dom/div #js {:className "tab-content"}
                                   (map-indexed (fn [i tab]
                                                  (om/build tabcontent tab
-                                                           {:state {:active (= i active-tab)}}))
+                                                           {:state {:active (= i active-tab)
+                                                                    :index i
+                                                                    :tabid tabid
+                                                                    :tabbody tabbody}}))
                                                (vals tabs)))))))

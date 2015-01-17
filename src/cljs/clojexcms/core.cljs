@@ -1,10 +1,10 @@
 (ns clojexcms.core
   ; (:require-macros [cljs.core.async.macros :refer (go go-loop)])
   (:require ; [cljs.core.async :as async :refer (<! >! put! chan)]
-            [clojexcms.tabpanel :refer (tabpanel)]
-            [om.core :as om :include-macros true]
-            [om.dom :as dom :include-macros true]
-            [taoensso.sente :as sente :refer (cb-success?)]))
+   [clojexcms.content :refer (content-view)]
+   [om.core :as om :include-macros true]
+   [om.dom :as dom :include-macros true]
+   [taoensso.sente :as sente :refer (cb-success?)]))
 
 (enable-console-print!)
 
@@ -35,8 +35,8 @@
                     #_(println "new app-state:" @app-state))))))
 
 #_(defmethod event-msg-handler :chsk/recv
-  [{:as ev-msg :keys [?data]}]
-  (println "Push event from server:" ?data))
+    [{:as ev-msg :keys [?data]}]
+    (println "Push event from server:" ?data))
 
 (defn main []
   (sente/start-chsk-router! ch-chsk event-msg-handler)
@@ -47,6 +47,6 @@
        (render [_]
                (dom/div nil
                         (dom/h1 nil (:text app))
-                        (om/build tabpanel (:content app))))))
+                        (om/build content-view (:content app))))))
    app-state
    {:target (. js/document (getElementById "app"))}))
