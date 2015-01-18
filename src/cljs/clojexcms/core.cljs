@@ -16,6 +16,8 @@
   (def chsk-send! send-fn) ; ChannelSocket's send API fn
   (def chsk-state state))  ; Watchable, read-only atom
 
+(reset! clojexcms.content/chsk-send! chsk-send!)
+
 (defmulti event-msg-handler :id) ; Dispatch on event-id
 
 (defmethod event-msg-handler :default ; Fallback
@@ -30,7 +32,7 @@
                 (fn [cb-reply]
                   #_(println ":content/get-all reply:" cb-reply)
                   (when (not= cb-reply :chsk/timeout)
-                    (swap! app-state assoc :content cb-reply)
+                    (swap! app-state assoc :content (vec cb-reply))
                     #_(println "new app-state:" @app-state))))))
 
 #_(defmethod event-msg-handler :chsk/recv
