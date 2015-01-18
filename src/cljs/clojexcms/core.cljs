@@ -1,10 +1,9 @@
 (ns clojexcms.core
-  ; (:require-macros [cljs.core.async.macros :refer (go go-loop)])
-  (:require ; [cljs.core.async :as async :refer (<! >! put! chan)]
-   [clojexcms.content :refer (content-view)]
-   [om.core :as om :include-macros true]
-   [om.dom :as dom :include-macros true]
-   [taoensso.sente :as sente :refer (cb-success?)]))
+  (:require [clojexcms.content :refer (content-view)]
+            [om.core :as om :include-macros true]
+            [om-tools.dom :as dom :include-macros true]
+            [om-tools.core :refer-macros [defcomponent]]
+            [taoensso.sente :as sente :refer (cb-success?)]))
 
 (enable-console-print!)
 
@@ -45,8 +44,8 @@
      (reify
        om/IRender
        (render [_]
-               (dom/div nil
-                        (dom/h1 nil (:text app))
-                        (om/build content-view (:content app))))))
+               (dom/div
+                (dom/h1 (:text app))
+                (om/build content-view (:content app))))))
    app-state
    {:target (. js/document (getElementById "app"))}))

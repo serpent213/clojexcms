@@ -23,6 +23,7 @@
                  [markdown-clj "0.9.61" :exclusions [org.clojure/clojure]]
                  [om "0.8.0-rc1"]
                  [postgresql "9.3-1102.jdbc41"]
+                 [prismatic/om-tools "0.3.10" :exclusions [potemkin]]
                  [ring "1.3.2"]
                  [ring/ring-defaults "0.1.2"]
                  [yesql "0.4.0"]]
