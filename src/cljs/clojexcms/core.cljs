@@ -32,12 +32,28 @@
                 (fn [cb-reply]
                   #_(println ":content/get-all reply:" cb-reply)
                   (when (not= cb-reply :chsk/timeout)
-                    (swap! app-state assoc :content (vec cb-reply))
-                    #_(println "new app-state:" @app-state))))))
+                    (swap! app-state assoc :content (vec cb-reply)))))))
 
-#_(defmethod event-msg-handler :chsk/recv
+(do ; server push events
+
+  (defn positions
+    [pred coll]
+    (keep-indexed (fn [idx x]
+                    (when (pred x)
+                      idx))
+                  coll))
+
+  (defmulti push-msg-handler :id)
+
+  (defmethod push-msg-handler :content/update!
     [{:as ev-msg :keys [?data]}]
-    (println "Push event from server:" ?data))
+    (let [index (first (positions #(= (:id ?data) (:id %)) (:content @app-state)))]
+      (swap! app-state assoc-in [:content index :body] (:body ?data))))
+
+  (defmethod event-msg-handler :chsk/recv
+    [{:as ev-msg :keys [?data]}]
+    #_(println "Push event from server:" ?data)
+    (push-msg-handler {:id (first ?data) :?data (second ?data)})))
 
 (defn main []
   (sente/start-chsk-router! ch-chsk event-msg-handler)
