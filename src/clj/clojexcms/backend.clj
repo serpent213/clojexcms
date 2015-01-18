@@ -1,6 +1,5 @@
 (ns clojexcms.backend
-  (:require ; [clojure.core.async :as async :refer (<! <!! >! >!! put! chan go go-loop)]
-            [clojure.java.io :as io]
+  (:require [clojure.java.io :as io]
             [clojexcms.database :refer [db]]
             [clojexcms.dev :refer [is-dev? inject-devmode-html]]
             [net.cgrand.enlive-html :refer [deftemplate]]
@@ -30,7 +29,7 @@
         uid     (:uid     session)]
     (println "Unhandled event:" event)
     (when ?reply-fn
-      (?reply-fn {:unmatched-event-as-echoed-from-from-server event}))))
+      (?reply-fn {:unmatched-event-as-echoed-from-server event}))))
 
 (defmethod event-msg-handler :chsk/ws-ping [ev-msg]
   ;; do nothing
@@ -43,6 +42,16 @@
     (println ":content/get-all event:" event)
     (when ?reply-fn
       (?reply-fn (content-all db)))))
+
+(defmethod event-msg-handler :content/update!
+  [{:as ev-msg :keys [event id ?data ring-req ?reply-fn send-fn]}]
+  (let [session (:session ring-req)
+        uid     (:uid     session)]
+    (println ":content/update! event:" event)
+    (when ?reply-fn
+      (if (= (update-content! db (:body ?data) (:id ?data)) 1)
+        (?reply-fn :content/update-success)
+        (?reply-fn :content/update-error)))))
 
 (defn start-chsk-router! []
   (sente/start-chsk-router! ch-chsk event-msg-handler))
