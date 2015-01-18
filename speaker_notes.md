@@ -17,11 +17,12 @@ Website with frontend and backend, simple CMS. Frontend rendered server-side for
 * Plugins
 * Keymaps
 * Cursive
-* paredit
+* internal vs. external browser
 
 # Live coding
 
 * Still experimental, some glitches, but already useful
+* Many questions unanswered for me. More questions than answers.
 
 # Structure
 
@@ -35,8 +36,16 @@ Website with frontend and backend, simple CMS. Frontend rendered server-side for
 * PostgreSQL
 * Flyway
 
+(diagram)
+
 # Live demo
 
 # Conclusion
 
 State of the art web development with all bells and whistles is a complex bitch.
+
+Current state of clojexcms:
+
+* needs refactoring
+* needs auth
+* help/pull requests welcome

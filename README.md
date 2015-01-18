@@ -14,6 +14,11 @@ Example", Steffen Beyer.
 * PostgreSQL
 * [Flyway](http://flywaydb.org) – Database migrations
 
+## Setup
+
+* DB connection
+* lein flyway...
+
 ## Development
 
 Open a terminal and type `lein repl` to start a Clojure REPL
