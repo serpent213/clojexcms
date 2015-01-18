@@ -104,6 +104,11 @@ Copyright © 2014 FIXME
 Distributed under the Eclipse Public License either version 1.0 or (at
 your option) any later version.
 
+## Skins
+
+* [Dark Admin](http://www.prepbootstrap.com/bootstrap-theme/dark-admin), MIT license
+* [Full Width Pics](http://startbootstrap.com/template-overviews/full-width-pics/), Apache 2.0 license
+
 ## Chestnut
 
 Created with [Chestnut](http://plexus.github.io/chestnut/) 0.7.0-SNAPSHOT (ecadc3ce).
