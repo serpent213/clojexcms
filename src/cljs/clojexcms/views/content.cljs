@@ -1,4 +1,4 @@
-(ns clojexcms.content
+(ns clojexcms.views.content
   (:require [bootstrap-cljs :as bs :include-macros true]
             [clojexcms.tabpanel :refer (tabpanel)]
             [om.core :as om :include-macros true]
@@ -34,7 +34,9 @@
 
 (defcomponent content-view [content-all owner]
   (render [_]
-          (om/build tabpanel content-all
-                    {:state {:tabid :id
-                             :tabtitle :title
-                             :tabbody edit-view}})))
+          (dom/div
+           (dom/h1 "Content")
+           (om/build tabpanel content-all
+                     {:state {:tabid :id
+                              :tabtitle :title
+                              :tabbody edit-view}}))))

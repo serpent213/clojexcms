@@ -1,8 +1,9 @@
 (ns clojexcms.core
   ; (:require-macros [cljs.core.async.macros :refer (go go-loop)])
   (:require [cljs.core.async :as async :refer (<! >! put! chan)]
-            [clojexcms.content :refer (content-view)]
             [clojexcms.frame :refer (navigation-menu flash-messages)]
+            [clojexcms.views.content :refer (content-view)]
+            [clojexcms.views.dashboard :refer (dashboard-view)]
             [om.core :as om :include-macros true]
             [om-tools.dom :as dom :include-macros true]
             [om-tools.core :refer-macros [defcomponent defcomponentmethod]]
@@ -21,7 +22,7 @@
   (def chsk-send! send-fn) ; ChannelSocket's send API fn
   (def chsk-state state))  ; Watchable, read-only atom
 
-(reset! clojexcms.content/chsk-send! chsk-send!)
+(reset! clojexcms.views.content/chsk-send! chsk-send!)
 
 (defmulti event-msg-handler :id) ; Dispatch on event-id
 
@@ -60,12 +61,19 @@
     #_(println "Push event from server:" ?data)
     (push-msg-handler {:id (first ?data) :?data (second ?data)})))
 
-(defcomponent page [app owner]
-  (render [_]
-          (case (get-in app [:ui :page])
-            :dashboard  (om/build content-view (:content app))
-            :content    (om/build content-view (:content app))
-            :empty      (om/build content-view (:content app)))))
+(do ; admin views
+
+  (def menu-entries
+    [{:id :dashboard :icon "bullseye" :title "Dashboard"}
+     {:id :content   :icon "pencil"   :title "Content"}
+     {:id :empty     :icon "globe"    :title "You name it"}])
+
+  (defcomponent page [app owner]
+    (render [_]
+            (case (get-in app [:ui :page])
+              :dashboard  (om/build dashboard-view app)
+              :content    (om/build content-view (:content app))
+              :empty      (dom/h1 (dom/small "This page intentionally left blank."))))))
 
 (defn main []
   (sente/start-chsk-router! ch-chsk event-msg-handler)
@@ -78,7 +86,7 @@
        om/IRender
        (render [_]
                (dom/div
-                (om/build navigation-menu (:ui app))
+                (om/build navigation-menu (:ui app) {:opts {:menu-entries menu-entries}})
                 (dom/div {:id "page-wrapper"}
                          (om/build flash-messages (:ui app))
                          (om/build page app))))))
