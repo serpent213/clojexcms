@@ -6,7 +6,8 @@
 
 (defcomponent menu-entry [ui owner {:keys [id icon title]}]
   (render [_]
-          (dom/li {:on-click (fn [e]
+          (dom/li {:class (if (= id (:page ui)) "selected")
+                   :on-click (fn [e]
                                (om/update! ui :page id)
                                (.preventDefault e))}
                   (dom/a {:href "#"}
