@@ -1,13 +1,18 @@
 (ns clojexcms.core
-  (:require [clojexcms.content :refer (content-view)]
+  ; (:require-macros [cljs.core.async.macros :refer (go go-loop)])
+  (:require [cljs.core.async :as async :refer (<! >! put! chan)]
+            [clojexcms.content :refer (content-view)]
+            [clojexcms.frame :refer (navigation-menu flash-messages)]
             [om.core :as om :include-macros true]
             [om-tools.dom :as dom :include-macros true]
-            [om-tools.core :refer-macros [defcomponent]]
+            [om-tools.core :refer-macros [defcomponent defcomponentmethod]]
             [taoensso.sente :as sente :refer (cb-success?)]))
 
 (enable-console-print!)
 
-(defonce app-state (atom {:text "clojexcms"}))
+(defonce app-state (atom {:site {:name "ClojExCMS"}
+                          :ui {:page :dashboard}
+                          :content []}))
 
 (let [{:keys [chsk ch-recv send-fn state]}
       (sente/make-channel-socket! "/chsk" {:type :auto})]
@@ -55,15 +60,27 @@
     #_(println "Push event from server:" ?data)
     (push-msg-handler {:id (first ?data) :?data (second ?data)})))
 
+(defcomponent page [app owner]
+  (render [_]
+          (case (get-in app [:ui :page])
+            :dashboard  (om/build content-view (:content app))
+            :content    (om/build content-view (:content app))
+            :empty      (om/build content-view (:content app)))))
+
 (defn main []
   (sente/start-chsk-router! ch-chsk event-msg-handler)
   (om/root
    (fn [app owner]
      (reify
+       om/IInitState
+       (init-state [_]
+                   {:navigation (chan)})
        om/IRender
        (render [_]
                (dom/div
-                (dom/h1 (:text app))
-                (om/build content-view (:content app))))))
+                (om/build navigation-menu (:ui app))
+                (dom/div {:id "page-wrapper"}
+                         (om/build flash-messages (:ui app))
+                         (om/build page app))))))
    app-state
-   {:target (. js/document (getElementById "app"))}))
+   {:target (. js/document (getElementById "wrapper"))}))
