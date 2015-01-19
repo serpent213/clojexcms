@@ -396,6 +396,10 @@ h3,
   margin-top: 20px;
   margin-bottom: 10px;
 }
+#page-wrapper h1 { /* page title */
+  margin-top: -10px;
+  margin-bottom: 25px;
+}
 h1 small,
 .h1 small,
 h2 small,
