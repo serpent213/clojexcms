@@ -8,7 +8,9 @@
 
   :test-paths ["spec/clj"]
 
-  :clean-targets ^{:protect false} [:target-path "resources/public/js/app.js" "resources/public/js/out"]
+  :clean-targets ^{:protect false} [:target-path
+                                    "resources/public/js/backend/app.js"
+                                    "resources/public/js/backend/out"]
 
   :dependencies [[org.clojure/clojure "1.6.0"]
                  [org.clojure/clojurescript "0.0-2665" :scope "provided"]
@@ -38,9 +40,9 @@
   :uberjar-name "clojexcms.jar"
 
   :cljsbuild {:builds {:app {:source-paths ["src/cljs"]
-                             :compiler {:output-to     "resources/public/js/app.js"
-                                        :output-dir    "resources/public/js/out"
-                                        :source-map    "resources/public/js/out.js.map"
+                             :compiler {:output-to     "resources/public/js/backend/app.js"
+                                        :output-dir    "resources/public/js/backend/out"
+                                        :source-map    "resources/public/js/backend/out.js.map"
                                         :preamble      ["react/react.min.js"]
                                         :optimizations :none
                                         :pretty-print  true}}}}
