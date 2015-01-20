@@ -46,5 +46,13 @@
   #_(println "Push event from server:" ?data)
   (push-msg-handler {:id (first ?data) :?data (second ?data)}))
 
+(defn update-content! [content on-success & [?on-error]]
+  (chsk-send! [:content/update! {:id (:id content) :body (:body content)}]
+              5000
+              (fn [cb-reply]
+                (if (= cb-reply :content/update-success)
+                  (on-success)
+                  (if ?on-error (?on-error))))))
+
 (defn start-router! []
   (sente/start-chsk-router! ch-chsk event-msg-handler))

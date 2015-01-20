@@ -7,11 +7,8 @@
             [om-tools.core :refer-macros [defcomponent]]))
 
 (defn update-content! [content owner]
-  (server/chsk-send! [:content/update! {:id (:id content) :body (:body content)}]
-                     5000
-                     (fn [cb-reply]
-                       (when (= cb-reply :content/update-success)
-                         (om/set-state! owner :dirty? false)))))
+  (server/update-content! content
+                          #(om/set-state! owner :dirty? false)))
 
 (defn handle-change [e content owner]
   (om/set-state! owner :dirty? true)
