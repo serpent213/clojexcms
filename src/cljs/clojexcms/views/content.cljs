@@ -1,18 +1,17 @@
 (ns clojexcms.views.content
   (:require [bootstrap-cljs :as bs :include-macros true]
             [clojexcms.tabpanel :refer (tabpanel)]
+            [clojexcms.server :as server]
             [om.core :as om :include-macros true]
             [om-tools.dom :as dom :include-macros true]
             [om-tools.core :refer-macros [defcomponent]]))
 
-(def chsk-send! (atom #()))
-
 (defn update-content! [content owner]
-  (@chsk-send! [:content/update! {:id (:id content) :body (:body content)}]
-               5000
-               (fn [cb-reply]
-                 (when (= cb-reply :content/update-success)
-                   (om/set-state! owner :dirty? false)))))
+  (server/chsk-send! [:content/update! {:id (:id content) :body (:body content)}]
+                     5000
+                     (fn [cb-reply]
+                       (when (= cb-reply :content/update-success)
+                         (om/set-state! owner :dirty? false)))))
 
 (defn handle-change [e content owner]
   (om/set-state! owner :dirty? true)
