@@ -32,7 +32,10 @@
 
 (defmethod push-msg-handler :content/update!
   [{:as ev-msg :keys [?data]}]
-  (swap! app-state assoc-in [:content (keyword (:id ?data)) :body] (:body ?data)))
+  (let [id (keyword (:id ?data))]
+    (if (get-in @app-state [:content id :dirty?])
+      (swap! app-state assoc-in [:content id :changed-on-server?] true)
+      (swap! app-state assoc-in [:content id :body] (:body ?data)))))
 
 (defmethod event-msg-handler :chsk/recv
   [{:as ev-msg :keys [?data]}]

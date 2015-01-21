@@ -8,8 +8,11 @@
                           {:page :dashboard}
 
                           :content
-                          ;; {:example {:id "example"
-                          ;;            :description "Example for documentation"
-                          ;;            :body "foo"
-                          ;;            :more-db-columns 23}}
+                          #_{:example {:id                  "example"
+                                       :description         "Example for documentation"
+                                       :body                "foo"
+                                       :more-db-columns     23
+                                       ; the following are client-only
+                                       :dirty?              false
+                                       :changed-on-server?  false}}
                           {}}))
