@@ -1,6 +1,7 @@
 (ns clojexcms.server
   "Server startup and routing"
-  (:require [clojexcms.backend :refer [backend-page ring-ajax-get-or-ws-handshake
+  (:require [clojexcms.auth :refer [login!]]
+            [clojexcms.backend :refer [backend-page ring-ajax-get-or-ws-handshake
                                        ring-ajax-post start-chsk-router!]]
             [clojexcms.content-page :refer [content-page]]
             [clojexcms.dev :refer [is-dev? start-figwheel start-less]]
@@ -21,6 +22,9 @@
   ;; sente channel socket
   (GET  "/chsk" req (ring-ajax-get-or-ws-handshake req))
   (POST "/chsk" req (ring-ajax-post req))
+
+  ;; backend login
+  (POST "/login" req (login! req))
 
   ;; frontend pages
   (GET "/" [] (content-page "welcome"))

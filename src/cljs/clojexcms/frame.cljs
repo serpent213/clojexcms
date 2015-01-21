@@ -15,7 +15,7 @@
                          (dom/i {:class (str "fa fa-" icon)})
                          (str " " title)))))
 
-(defcomponent navigation-menu [{:keys [site ui]} owner {:keys [menu-entries]}]
+(defcomponent navigation-menu [{:keys [site auth ui]} owner {:keys [menu-entries]}]
   (render [_]
           (dom/nav {:class "navbar navbar-inverse navbar-fixed-top" :role "navigation"}
                    (dom/div {:class "navbar-header"}
@@ -26,8 +26,9 @@
                             (dom/a {:class "navbar-brand" :href "#"} (str (:name site) " Admin")))
                    (dom/div {:class "collapse navbar-collapse navbar-ex1-collapse"}
                             (dom/ul {:class "nav navbar-nav side-nav"}
-                                    (for [entry menu-entries]
-                                      (om/build menu-entry ui {:opts entry})))))))
+                                    (if (:logged-in? auth)
+                                      (for [entry menu-entries]
+                                        (om/build menu-entry ui {:opts entry}))))))))
 
 (defcomponent flash-messages [ui owner]
   (render [_]

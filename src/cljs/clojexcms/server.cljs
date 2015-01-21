@@ -52,3 +52,17 @@
 
 (defn start-router! []
   (sente/start-chsk-router! ch-chsk event-msg-handler))
+
+(defn login! [user-id password]
+  (sente/ajax-call "/login"
+                   {:method :post
+                    :params {:user-id               user-id
+                             :password              password
+                             "__anti-forgery-token" (:csrf-token @chsk-state)}}
+                   (fn [ajax-resp]
+                     (println "Ajax login response:" ajax-resp)
+                     (if (= (:?status ajax-resp) 200)
+                       (swap! app-state assoc :auth {:logged-in? true
+                                                     :uid        user-id
+                                                     :name       "Administrator"}))))
+  (sente/chsk-reconnect! chsk))

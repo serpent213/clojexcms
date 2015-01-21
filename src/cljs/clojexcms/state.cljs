@@ -4,6 +4,11 @@
 (defonce app-state (atom {:site
                           {:name "ClojExCMS"}
 
+                          :auth
+                          {:logged-in? false
+                           :uid        nil
+                           :name       nil}
+
                           :ui
                           {:page :dashboard}
 
