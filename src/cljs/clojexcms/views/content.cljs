@@ -28,7 +28,8 @@
                     (if (:changed-on-server? content)
                       (dom/div {:class "alert alert-warning"
                                 :role "alert"
-                                :style {:margin-top "8px"}}
+                                :style {:margin-top "8px"
+                                        :margin-bottom "0"}}
                                (dom/strong "Warning: ")
                                (str "Content changed server-side by someone else. If you "
                                     "publish now, these changes will be overwritten!")))
