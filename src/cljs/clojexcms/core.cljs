@@ -29,7 +29,10 @@
    (fn [app owner]
      (om/component
       (dom/div
-       (om/build navigation-menu (:ui app) {:opts {:menu-entries menu-entries}})
+       (om/build navigation-menu
+                 {:site (:site app)
+                  :ui (:ui app)}
+                 {:opts {:menu-entries menu-entries}})
        (dom/div {:id "page-wrapper"}
                 (om/build flash-messages (:ui app))
                 (om/build page app)))))

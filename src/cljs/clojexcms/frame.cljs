@@ -15,7 +15,7 @@
                          (dom/i {:class (str "fa fa-" icon)})
                          (str " " title)))))
 
-(defcomponent navigation-menu [ui owner {:keys [menu-entries]}]
+(defcomponent navigation-menu [{:keys [site ui]} owner {:keys [menu-entries]}]
   (render [_]
           (dom/nav {:class "navbar navbar-inverse navbar-fixed-top" :role "navigation"}
                    (dom/div {:class "navbar-header"}
@@ -23,7 +23,7 @@
                                          :data-toggle "collapse" :data-target ".navbar-ex1-collapse"}
                                         (dom/span {:class "sr-only"} "Toggle navigation")
                                         (repeatedly 3 #(dom/span {:class "icon-bar"})))
-                            (dom/a {:class "navbar-brand" :href "#"} "ClojExCMS Admin"))
+                            (dom/a {:class "navbar-brand" :href "#"} (str (:name site) " Admin")))
                    (dom/div {:class "collapse navbar-collapse navbar-ex1-collapse"}
                             (dom/ul {:class "nav navbar-nav side-nav"}
                                     (for [entry menu-entries]
