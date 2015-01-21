@@ -50,13 +50,15 @@
   (let [session (:session ring-req)
         uid     (:uid     session)]
     (println ":content/update! event:" event)
-    (when ?reply-fn
-      (if (not= (update-content! db (:body ?data) (:id ?data)) 1)
-        (?reply-fn :content/update-error)
-        (do
-          (?reply-fn :content/update-success)
-          (doseq [uid (:any @connected-uids)]
-            (chsk-send! uid [:content/update! ?data])))))))
+    (let [sanitised (select-keys ?data [:id :title :description :body :position])
+          update-success? (= (update-content! db (:body sanitised) (:id sanitised)) 1)]
+      (when ?reply-fn
+        (if (not update-success?)
+          (?reply-fn :content/update-error)
+          (do
+            (?reply-fn :content/update-success)
+            (doseq [uid (:any @connected-uids)]
+              (chsk-send! uid [:content/update! sanitised]))))))))
 
 (defn start-chsk-router! []
   (sente/start-chsk-router! ch-chsk event-msg-handler))
