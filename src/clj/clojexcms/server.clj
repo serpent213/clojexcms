@@ -1,4 +1,5 @@
 (ns clojexcms.server
+  "Server startup and routing"
   (:require [clojexcms.backend :refer [backend-page ring-ajax-get-or-ws-handshake
                                        ring-ajax-post start-chsk-router!]]
             [clojexcms.content-page :refer [content-page]]

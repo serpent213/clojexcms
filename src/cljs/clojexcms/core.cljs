@@ -1,4 +1,5 @@
 (ns clojexcms.core
+  "Client startup and page dispatcher"
   (:require [clojexcms.frame :refer (navigation-menu flash-messages)]
             [clojexcms.server :as server]
             [clojexcms.state :refer (app-state)]

@@ -1,4 +1,5 @@
 (ns clojexcms.backend
+  "Client calls and events"
   (:require [clojure.java.io :as io]
             [clojexcms.database :refer [db]]
             [clojexcms.dev :refer [is-dev? inject-devmode-html]]

@@ -1,4 +1,5 @@
 (ns clojexcms.content-page
+  "Frontend page rendered from DB"
   (:require [clojexcms.database :refer [db]]
             [clojure.java.io :as io]
             [markdown.core :refer [md-to-html-string]]

@@ -1,4 +1,5 @@
-(ns clojexcms.state)
+(ns clojexcms.state
+  "Application state")
 
 (defonce app-state (atom {:site
                           {:name "ClojExCMS"}

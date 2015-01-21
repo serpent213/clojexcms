@@ -1,4 +1,5 @@
 (ns clojexcms.frame
+  "Admin interface structure and menus"
   (:require [bootstrap-cljs :as bs :include-macros true]
             [om.core :as om :include-macros true]
             [om-tools.dom :as dom :include-macros true]

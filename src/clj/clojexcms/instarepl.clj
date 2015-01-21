@@ -1,4 +1,4 @@
-;; instarepl code snippets
+;; (insta)repl code snippets
 
 (require '[yesql.core :refer [defqueries]])
 

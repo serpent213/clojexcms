@@ -1,4 +1,5 @@
 (ns clojexcms.server
+  "Server calls and events"
   (:require [cljs.core.async :as async :refer (<! >! put! chan)]
             [clojexcms.state :refer (app-state)]
             [om.core :as om :include-macros true]

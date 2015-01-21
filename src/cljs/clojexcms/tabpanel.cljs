@@ -1,4 +1,5 @@
 (ns clojexcms.tabpanel
+  "Tabbed panel for Bootstrap"
   (:require-macros [cljs.core.async.macros :refer (go go-loop)])
   (:require [cljs.core.async :as async :refer (<! >! put! chan)]
             [om.core :as om :include-macros true]

@@ -1,4 +1,5 @@
 (ns clojexcms.views.content
+  "Render a tabbed editor for content elements"
   (:require [bootstrap-cljs :as bs :include-macros true]
             [clojexcms.tabpanel :refer (tabpanel)]
             [clojexcms.server :as server]
