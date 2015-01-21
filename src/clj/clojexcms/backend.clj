@@ -41,7 +41,8 @@
         uid     (:uid     session)]
     (println ":content/get-all event:" event)
     (when ?reply-fn
-      (?reply-fn (content-all db)))))
+      (?reply-fn (into {} (map (fn [entry] {(keyword (:id entry)) entry})
+                               (content-all db)))))))
 
 (defmethod event-msg-handler :content/update!
   [{:as ev-msg :keys [event id ?data ring-req ?reply-fn send-fn]}]

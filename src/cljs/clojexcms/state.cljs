@@ -7,4 +7,8 @@
                           {:page :dashboard}
 
                           :content
-                          []}))
+                          ;; {:example {:id "example"
+                          ;;            :description "Example for documentation"
+                          ;;            :body "foo"
+                          ;;            :more-db-columns 23}}
+                          {}}))

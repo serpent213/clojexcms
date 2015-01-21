@@ -7,8 +7,7 @@
             [om-tools.core :refer-macros [defcomponent]]))
 
 (defn update-content! [content owner]
-  (server/update-content! content
-                          #(om/set-state! owner :dirty? false)))
+  (server/update-content! content #(om/set-state! owner :dirty? false)))
 
 (defn handle-change [e content owner]
   (om/set-state! owner :dirty? true)
@@ -32,7 +31,7 @@
   (render [_]
           (dom/div
            (dom/h1 "Content")
-           (om/build tabpanel content-all
+           (om/build tabpanel (sort-by :position (vals content-all))
                      {:state {:tabid :id
                               :tabtitle :title
                               :tabbody edit-view}}))))

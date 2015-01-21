@@ -25,21 +25,13 @@
                 (fn [cb-reply]
                   #_(println ":content/get-all reply:" cb-reply)
                   (when (cb-success? cb-reply)
-                    (swap! app-state assoc :content (vec cb-reply)))))))
-
-(defn positions
-  [pred coll]
-  (keep-indexed (fn [idx x]
-                  (when (pred x)
-                    idx))
-                coll))
+                    (swap! app-state assoc :content cb-reply))))))
 
 (defmulti push-msg-handler :id)
 
 (defmethod push-msg-handler :content/update!
   [{:as ev-msg :keys [?data]}]
-  (let [index (first (positions #(= (:id ?data) (:id %)) (:content @app-state)))]
-    (swap! app-state assoc-in [:content index :body] (:body ?data))))
+  (swap! app-state assoc-in [:content (keyword (:id ?data)) :body] (:body ?data)))
 
 (defmethod event-msg-handler :chsk/recv
   [{:as ev-msg :keys [?data]}]
