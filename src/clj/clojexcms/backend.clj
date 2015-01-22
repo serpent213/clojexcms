@@ -1,6 +1,7 @@
 (ns clojexcms.backend
   "Client calls and events"
   (:require [clojure.java.io :as io]
+            [clojexcms.auth :refer [is-admin?]]
             [clojexcms.database :refer [db]]
             [clojexcms.dev :refer [is-dev? inject-devmode-html]]
             [net.cgrand.enlive-html :refer [deftemplate]]
@@ -40,25 +41,27 @@
   [{:as ev-msg :keys [event id ?data ring-req ?reply-fn send-fn]}]
   (let [session (:session ring-req)
         uid     (:uid     session)]
-    (println ":content/get-all event:" event)
-    (when ?reply-fn
-      (?reply-fn (into {} (map (fn [entry] {(keyword (:id entry)) entry})
-                               (content-all db)))))))
+    (when (is-admin? ring-req)
+      (println ":content/get-all event:" event)
+      (when ?reply-fn
+        (?reply-fn (into {} (map (fn [entry] {(keyword (:id entry)) entry})
+                                 (content-all db))))))))
 
 (defmethod event-msg-handler :content/update!
   [{:as ev-msg :keys [event id ?data ring-req ?reply-fn send-fn]}]
   (let [session (:session ring-req)
         uid     (:uid     session)]
-    (println ":content/update! event:" event)
-    (let [sanitised (select-keys ?data [:id :title :description :body :position])
-          update-success? (= (update-content! db (:body sanitised) (:id sanitised)) 1)]
-      (when ?reply-fn
-        (if (not update-success?)
-          (?reply-fn :content/update-error)
-          (do
-            (?reply-fn :content/update-success)
-            (doseq [uid (:any @connected-uids)]
-              (chsk-send! uid [:content/update! sanitised]))))))))
+    (when (is-admin? ring-req)
+      (println ":content/update! event:" event)
+      (let [sanitised (select-keys ?data [:id :title :description :body :position])
+            update-success? (= (update-content! db (:body sanitised) (:id sanitised)) 1)]
+        (when ?reply-fn
+          (if (not update-success?)
+            (?reply-fn :content/update-error)
+            (do
+              (?reply-fn :content/update-success)
+              (doseq [uid (:any @connected-uids)]
+                (chsk-send! uid [:content/update! sanitised])))))))))
 
 (defn start-chsk-router! []
   (sente/start-chsk-router! ch-chsk event-msg-handler))

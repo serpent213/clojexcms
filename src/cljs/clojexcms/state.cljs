@@ -7,7 +7,7 @@
                           :auth
                           {:logged-in? false
                            :uid        nil
-                           :name       nil}
+                           :fullname   nil}
 
                           :ui
                           {:page :dashboard}

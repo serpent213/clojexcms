@@ -12,4 +12,14 @@
     (println "Login request:" params)
     {:status 200
      :session (assoc session :uid user-id)
-     :body {:name "Administrator"}}))
+     :headers {"Content-Type" "application/edn"}
+     :body (pr-str {:fullname "Administrator"})}))
+
+(defn is-admin? [ring-req]
+  (let [session (:session ring-req)
+        uid     (:uid     session)]
+    (if (nil? uid)
+      (do
+        (println "Access violation:" ring-req)
+        false)
+      true)))

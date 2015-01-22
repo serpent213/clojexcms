@@ -2,6 +2,7 @@
   "Server calls and events"
   (:require [cljs.core.async :as async :refer (<! >! put! chan)]
             [clojexcms.state :refer (app-state)]
+            [cljs.reader :as reader]
             [om.core :as om :include-macros true]
             [taoensso.sente :as sente :refer (cb-success?)]))
 
@@ -12,6 +13,13 @@
   (def chsk-send! send-fn) ; ChannelSocket's send API fn
   (def chsk-state state))  ; Watchable, read-only atom
 
+(defn seed-app-state! []
+  (chsk-send! [:content/get-all] 5000
+              (fn [cb-reply]
+                #_(println ":content/get-all reply:" cb-reply)
+                (when (cb-success? cb-reply)
+                  (swap! app-state assoc :content cb-reply)))))
+
 (defmulti event-msg-handler :id) ; Dispatch on event-id
 
 (defmethod event-msg-handler :default ; Fallback
@@ -21,12 +29,9 @@
 (defmethod event-msg-handler :chsk/state
   [{:as ev-msg :keys [?data]}]
   (println "Channel socket state change:" ?data)
-  (when (:first-open? ?data)
-    (chsk-send! [:content/get-all] 5000
-                (fn [cb-reply]
-                  #_(println ":content/get-all reply:" cb-reply)
-                  (when (cb-success? cb-reply)
-                    (swap! app-state assoc :content cb-reply))))))
+  (when (and (not= (:uid ?data) ::sente/nil-uid)
+             (empty? (:content @app-state)))
+    (seed-app-state!)))
 
 (defmulti push-msg-handler :id)
 
@@ -61,8 +66,9 @@
                              "__anti-forgery-token" (:csrf-token @chsk-state)}}
                    (fn [ajax-resp]
                      (println "Ajax login response:" ajax-resp)
-                     (if (= (:?status ajax-resp) 200)
-                       (swap! app-state assoc :auth {:logged-in? true
-                                                     :uid        user-id
-                                                     :name       "Administrator"}))))
+                     (when (= (:?status ajax-resp) 200)
+                       (let [{:keys [fullname]} (:?content ajax-resp)]
+                         (swap! app-state assoc :auth {:logged-in? true
+                                                       :uid        user-id
+                                                       :fullname   fullname})))))
   (sente/chsk-reconnect! chsk))
