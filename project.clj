@@ -19,6 +19,7 @@
                  [bootstrap-cljs "0.0.3" :exclusions [org.clojure/clojure]]
                  [com.taoensso/sente "1.3.0-RC2"]
                  [compojure "1.3.1"]
+                 [crypto-password "0.1.3"]
                  [enlive "1.1.5"]
                  [environ "1.0.0"]
                  [http-kit "2.1.19"]
