@@ -45,6 +45,12 @@ View the server starting up in the console.
 
 When you see the line `Successfully compiled "resources/public/js/backend/app.js" in 21.36 seconds.`, you're ready to go. Browse to [`http://localhost:10555`](http://localhost:10555) and enjoy.
 
+To shut down the server, open the connections panel and disconnect from clojexcms.
+
+### External Browser Connection
+
+If you want to connect an external browser to Light Table, you need to find out the current port, which changes with each start of Light Table. Open the connections panel, select *Browser (External)* and insert the displayed port number into `env/dev/clj/clojexcms/dev.clj`. Reevaluate the function or restart the server.
+
 ## Server Startup via REPL
 
 Open a terminal and type `lein repl` to start a Clojure REPL (interactive prompt).
