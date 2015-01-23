@@ -12,7 +12,7 @@ Use this project as an example or as template for your own developments.
 
 (in terms of libraries and building blocks)
 
-<img src="doc/architecture.png" alt="architecture" width="728" height="747">
+<img src="doc/architecture.png" alt="architecture" width="564" height="579">
 
 * [Light Table](http://lighttable.com/) – Live-coding environment
 * [Chestnut](https://github.com/plexus/chestnut) – Application template for ClojureScript/Om with live reloading
@@ -37,7 +37,7 @@ lein flyway migrate
 
 ## Light Table Development
 
-Add the folder to your workspace and open `src/clj/clojexcms/server.clj`. Evaluate the file, then evaluate the `(run)` expression.
+Add the folder to your workspace and open `src/clj/clojexcms/server.clj`. Evaluate the file, then evaluate the `(run)` expression at the bottom.
 
 The call to `(run)` does two things, it starts the webserver at port 10555, and also the Figwheel server which takes care of live reloading ClojureScript code and CSS.
 
