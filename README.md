@@ -6,13 +6,13 @@ Use this project as an example or as template for your own developments.
 
 *frontend* is the visitor-facing website, *backend* is the administration panel.
 
-<img src="doc/screenshot.png" alt="backend screenshot" width="878" height="708">
+<img src="doc/screenshot.png" alt="backend screenshot" width="728" height="587">
 
 ## Architecture
 
 (in terms of libraries and building blocks)
 
-<img src="doc/architecture.png" alt="architecture" width="902" height="926">
+<img src="doc/architecture.png" alt="architecture" width="728" height="747">
 
 * [Light Table](http://lighttable.com/) – Live-coding environment
 * [Chestnut](https://github.com/plexus/chestnut) – Application template for ClojureScript/Om with live reloading
