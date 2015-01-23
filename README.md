@@ -1,6 +1,6 @@
 # clojexcms – Clojure(Script) Example CMS
 
-Developed for the [:clojureD conference](http://www.clojured.de) 2015, "Web Applications by Example", Steffen Beyer.
+Developed for the [:clojureD conference](http://www.clojured.de) 2015, "Web Applications by Example", Steffen Beyer. Slides for the talk are [here](https://github.com/improper/clojexcms-slides-v3).
 
 Use this project as an example or as template for your own developments.
 
@@ -61,10 +61,11 @@ In the REPL, type
 * [Anna Pawlicka: Om nom nom nom (Clojure/conj 2014 talk)](https://www.youtube.com/watch?v=4-oyZpLRQ20&list=PLZdCLR02grLoc322bYirANEso3mmzvCiI&index=3)
 * [Brandon Bloom: Local State, Global Concerns](http://blog.circleci.com/local-state-global-concerns/)
 * [Stuart Sierra: My Clojure Workflow, Reloaded](http://thinkrelevance.com/blog/2013/06/04/clojure-workflow-reloaded)
-* [Anton Astashov: Perfect ClojureScript Development Environment With Vim](http://astashov.github.io/blog/2014/07/30/perfect-clojurescript-development-environment-with-vim/)
-* [CircleCI frontend](https://github.com/circleci/frontend)
 * [Luminus – A Clojure web framework](http://www.luminusweb.net/)
 * [Flux application architecture](http://facebook.github.io/flux/docs/overview.html)
+* [CircleCI frontend](https://github.com/circleci/frontend)
+* [Anton Astashov: Perfect ClojureScript Development Environment With Vim](http://astashov.github.io/blog/2014/07/30/perfect-clojurescript-development-environment-with-vim/)
+* [Cursive – A Clojure IDE that understands your code](https://cursiveclojure.com/)
 
 ## Skins
 
