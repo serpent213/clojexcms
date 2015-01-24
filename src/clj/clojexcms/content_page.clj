@@ -10,4 +10,8 @@
 
 (deftemplate content-page
   (io/resource "frontend.html") [id]
-  [:div#content] (html-content (md-to-html-string (:body (first (content-by-id db id))))))
+  [:div#content] (->> (content-by-id db id)
+                      first
+                      :body
+                      md-to-html-string
+                      html-content))
